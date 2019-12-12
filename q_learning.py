@@ -10,6 +10,13 @@ from matplotlib import rcParams
 
 from env import Env
 
+env = Env(18,12,50,0,1)
+total_episode = 100000
+total_test = 10
+alpha = 0.7 # learning step size
+gamma = 0.8 # reward discount rate
+epsilon = 0.5 # Exploring rate
+# lamb = 0.7 # the lambda weighting factor
 
 def save_frames_as_gif(frames,file_name="animation.gif"):
     """
@@ -29,28 +36,30 @@ def get_file_name():
     file_name = (   
                     str(env.court_width-env.outter_margin*2)+"_"+
                     str(env.court_height-env.outter_margin*2)+"_"+
-                    str(env.opponent_number)+"_"+
-                    "trained-"+str(total_episode)+"-times_"
+                    str(env.opponent_number)+"_"
                 )
+
+    if env.opponent_can_move==1:
+        file_name = file_name+"opponents-can-move_"
+    else:   
+        file_name = file_name+"opponents-can-not-move_"
+        
     if env.drunk:
         file_name = file_name+"drunk_"
     else:   
         file_name = file_name+"sober_"
-    if env.opponent_can_move==1:
-        file_name = file_name+"opponents-can-move_"
-    else:   
-        file_name = file_name+"opponents-can-not-move"
+
+    file_name = file_name+"a"+str(alpha)+"_"
+    file_name = file_name+"g"+str(gamma)+"_"
+    file_name = file_name+"e"+str(epsilon)+"_"
+                    
+    file_name = file_name+"trained-"+str(total_episode)+"-episodes"
     
     return file_name
-
 
 trained_model_path = None
 if len(sys.argv)>1:
     trained_model_path = sys.argv[0]
-
-env = Env(36,24,250,0,1)
-total_episode = 1
-total_test = 0 
 
 dimension = [env.court_width, env.court_height, env.court_width, env.court_height]
 if env.opponent_can_move == 1:
@@ -60,7 +69,7 @@ if env.opponent_can_move == 1:
 dimension.append( len(env.action_space) )
 
 if trained_model_path:
-    dict_data = load('q_matrix.npz')
+    dict_data = np.load(trained_model_path)
     Q = dict_data['arr_0'] # extract the first array
 
     if Q.shape != tuple(dimension):
@@ -70,10 +79,6 @@ else:
     print("Start training...")
     Q = np.zeros( dimension )
     # eligibility = np.zeros( dimension )
-
-    alpha = 0.2 # learning step size
-    gamma = 0.8 # reward discount rate
-    # lamb = 0.7 # the lambda weighting factor
 
     def pick_action(s, epsilon): # s = (x,y,holding_ball)
         max_value = -999999
@@ -90,14 +95,10 @@ else:
     for episode in range(total_episode):
 
         s = env.reset()
-        epsilon = 0.7 # Exploring rate
-
-        # print("== Episode", episode, ":")
 
         for i in range(60):
             a = pick_action(s,epsilon)
             next_state, reward, over = env.step(a) #make a mov from s using a and get the new state s and the reward r    
-            # eligibility[s] += 1.0# Update eligibilities
 
             Q[s][a] = (1-alpha)*Q[s][a] + alpha*( reward + gamma * Q[next_state].max() )
             s = next_state
@@ -109,7 +110,7 @@ else:
             print(progress, "%")
             progress = progress+1
 
-    np.savez_compressed(get_file_name()+'_q-matrix.npz', Q)
+    np.savez_compressed('Q_'+get_file_name()+'.npz', Q)
 
 
 for test in range(total_test):

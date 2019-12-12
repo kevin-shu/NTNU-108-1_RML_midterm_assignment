@@ -1,4 +1,19 @@
-## Explanation:
+
+# How to run the program
+In the terminal, switch to the folder of the project, and then:
+``` 
+# Install required modules: 
+pip install -r requirements.txt
+
+# Run Q-learning:
+python q_learning.py
+
+# If you want to load the trained model, assign the trained numpy array compressed file:
+python q_learning.py 36_24_250_trained-1000000-times_drunk_opponents-can-not-move_q-matrix.npz
+
+```
+
+# Explanation:
 
 ## Basketball game enviroment:
 
@@ -32,11 +47,11 @@ For example, when we have a 9*6 court (the world will be 11*8), 2 opponent. The 
 ## Finding:
 
 ### 9*6 court with 5 opponents won't move:
-When the eplison was setting as 0.7, it takes 400,000 episode to trained and had a good result.
+When the epsilon was setting as 0.7, it takes 400,000 episode to trained and had a good result.
 ![](9_6_5_trained 400000 times_sober_opponents-can-not-move_test-8.gif)
 
 ### 9*6 court with 1 opponents can move:
-When the eplison was setting as 0.7, it needs 1,000,000 episode to trained and had a good result.
+When the epsilon was setting as 0.7, it needs 1,000,000 episode to trained and had a good result.
 But the model can deal with 1 opponent in any position.
 #### Test 1:
 ![](9_6_1_trained-1000000-times_sober_test-1.gif)
