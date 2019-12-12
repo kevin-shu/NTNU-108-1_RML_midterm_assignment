@@ -1,0 +1,17 @@
+# Environment:
+Width: 18
+Height: 12
+Opponents: 50
+Opponentt moving: 0
+Drunk: 1
+
+# Training setting:
+Alpha: 0.4
+Gamma: 0.6
+Epsilon: 0.7
+Max steps: 200
+Training episodes: 5000000
+
+# Test result:
+Test episodes: 10
+Success ratio: 20.0%

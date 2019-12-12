@@ -2,7 +2,7 @@ import random
 import math
 import gym
 from gym.envs.classic_control import rendering
-import time
+# import time
 
 class Env():
     def __init__(self,court_width, court_height, opponent_number=0, opponent_can_move=False, drunk=False):
@@ -218,7 +218,5 @@ class Env():
         self.basket_trans.set_translation(self.basket_position[0]*scale+dot_radius, self.basket_position[1]*scale+dot_radius)
         for i in range(len(self.opponents)):
             self.opponent_trans[i].set_translation( self.opponents[i][0]*scale+dot_radius, self.opponents[i][1]*scale+dot_radius )
-
-        time.sleep(0.1)
 
         return self.viewer.render(return_rgb_array = mode=='rgb_array')

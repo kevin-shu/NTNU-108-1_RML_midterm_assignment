@@ -7,15 +7,25 @@ pip install -r requirements.txt
 
 # Run Q-learning:
 python q_learning.py
+```
+After that, this program will generate se
 
-# If you want to load the trained model, assign the trained numpy array compressed file:
+If you want to load the trained model, assign the trained numpy array compressed file as follow:
+```
 python q_learning.py 36_24_250_trained-1000000-times_drunk_opponents-can-not-move_q-matrix.npz
-
 ```
 
-# Explanation:
+You should notice that, to load the trained model , the numpy version should be lower than 1.16.2. 
+```
+pip install numpy==1.16.2
+```
 
-## Basketball game enviroment:
+# Features:
+1. Can save trained model into file and load it later.
+2. If you choose to render the result, It would also generate the gif of test episodes.
+3. The programe will also generate the report file to record the setting and test result.
+
+# About the basketball game enviroment
 
 Env( court_width, court_height, opponent_number=0, opponent_can_move=0, drunk_mode=0 )
 
@@ -42,25 +52,6 @@ For example, when we have a 9*6 court (the world will be 11*8), 2 opponent. The 
 ```
 11(player's x), 8(player's y), 11(ball's x), 8(ball's y), 11(opponent_1's x) * 8(opponent_1's y) * 11(opponent_1's x) * 8(opponent_1's y) * 5(action space)
 ```
-
-
-## Finding:
-
-### 9*6 court with 5 opponents won't move:
-When the epsilon was setting as 0.7, it takes 400,000 episode to trained and had a good result.
-![](9_6_5_trained 400000 times_sober_opponents-can-not-move_test-8.gif)
-
-### 9*6 court with 1 opponents can move:
-When the epsilon was setting as 0.7, it needs 1,000,000 episode to trained and had a good result.
-But the model can deal with 1 opponent in any position.
-#### Test 1:
-![](9_6_1_trained-1000000-times_sober_test-1.gif)
-#### Test 2:
-![](9_6_1_trained-1000000-times_sober_test-2.gif)
-#### Test 3:
-![](9_6_1_trained-1000000-times_sober_test-2.gif)
-
-### 
 
 ## References:
 * http://incompleteideas.net/book/first/ebook/node78.html
