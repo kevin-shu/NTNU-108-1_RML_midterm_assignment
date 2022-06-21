@@ -5,7 +5,7 @@ graphviz==0.10.1
 gym==0.15.4
 kiwisolver==1.1.0
 matplotlib==3.0.3
-numpy==1.16.3
+numpy==1.22.0
 opencv-python==4.1.2.30
 pandas==0.24.2
 pygame==1.9.6
